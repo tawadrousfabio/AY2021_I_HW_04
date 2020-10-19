@@ -28,7 +28,9 @@ The external LED must be connected to pin **2.7**, the potentiometer to pin **2.
 The UART must use the pins **12.6** and **12.7** in order to communicate through the KitProg.
 
 ### Serial Port Communication
-For remote command part, please use the following command: **“B”**,**”b”** (Begin, you can start sampling sensors); **“S”**, **“s”** (Stop, don’t measure anything).
+For remote command part, please use the following command:
+- **“B”**,**”b”**: begin, you can start sampling sensors)
+- **“S”**, **“s”**: stop, don’t measure anything).
 
 ### Setup and Assignment Delivery
 - Fork this repository 
