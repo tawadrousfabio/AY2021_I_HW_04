@@ -39,7 +39,7 @@ For remote command part, please use the following command:
     `git clone https://github.com/[your_username]/AY2021_I_HW_04.git`
 - Open up the workspace in PSoC Creator
 - Activate the project with your name and surname
-- Work on your project
+- Work on your project. Remeber to save Bridge Control Panel configuration files (.ini and .iic) inside BRIDGE_CONTROL_PANEL_CONFIG_FILES folder inside your project folder
 - The last commit must be named '*SURNAME_NAME* Final Delivery'
 - Propose a pull request before the deadline for the assignment, which is on **October 27 at 6PM**
 
