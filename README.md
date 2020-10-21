@@ -29,8 +29,8 @@ The UART must use the pins **12.6** and **12.7** in order to communicate through
 
 ### Serial Port Communication
 For remote command part, please use the following command:
-- **“B”**,**”b”**: begin, you can start sampling sensors)
-- **“S”**, **“s”**: stop, don’t measure anything).
+- **“B”**,**”b”**: begin, you can start sampling sensors
+- **“S”**, **“s”**: stop, don’t measure anything
 
 ### Setup and Assignment Delivery
 - Fork this repository 
@@ -51,7 +51,7 @@ The evaluation of the assignment will take into consideration the following aspe
 - correct functioning of the device as per the requirements
 - code organization (header and source files, useful comments)
 - schematic organization and documentation
-- successful use of git for version control (use of branches, ...)
+- successful use of git for version control (commits with proper comments, use of branches, ...)
 - successful pull request on GitHub
 
 
