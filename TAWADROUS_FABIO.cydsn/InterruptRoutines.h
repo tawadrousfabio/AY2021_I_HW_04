@@ -15,6 +15,10 @@
     #include"stdio.h"
     #define BYTE_TO_SEND 2
     #define TRANSMIT_BUFFER_SIZE 1 + BYTE_TO_SEND +1
+    #define THRESHOLD 5000
+    #define PHOTO_RESISTOR_SAMPLE 0
+    #define POTENTIOMETER_SAMPLE 1
+
     CY_ISR_PROTO(Custom_ISR_ADC);
     CY_ISR_PROTO(Custom_ISR_RX);
     uint8_t DataBuffer[TRANSMIT_BUFFER_SIZE];
