@@ -1,6 +1,7 @@
 #include "project.h"
 #include "stdio.h"
 #include "InterruptRoutines.h"
+#include "Driver.h"
 
 int32 digital_pot_value;
 int32 digital_photores_value;
