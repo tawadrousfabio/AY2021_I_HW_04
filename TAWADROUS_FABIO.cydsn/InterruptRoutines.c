@@ -38,10 +38,8 @@ CY_ISR(Custom_ISR_ADC){
             DataBuffer[2] = digital_pot_value & 0xFF;
             Red_LED_PWM_WriteCompare(digital_pot_value);
         
-        } else Red_LED_PWM_WriteCompare(0);
-        
-        
-    }
+        } else Red_LED_PWM_WriteCompare(0); 
+    } 
 }
 
 CY_ISR(Custom_ISR_RX){
@@ -52,13 +50,14 @@ CY_ISR(Custom_ISR_RX){
         case'B':
         case'b':
             Remote_Start= 1;
-            //On_Board_LED_Write(1);
+            On_Board_LED_Write(LED_ON);
             Timer_Start();
             break;
         case'S':
         case's':
             Remote_Start = 0;
-            On_Board_LED_Write(0);
+            On_Board_LED_Write(LED_OFF);
+            Red_LED_PWM_WriteCompare(0);
             Timer_Stop();
             break;
         default:

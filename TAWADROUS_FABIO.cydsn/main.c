@@ -40,13 +40,11 @@ int main( void )
             PacketReadyFlag = 0;
             
             if(digital_photores_value < THRESHOLD){
-                On_Board_LED_Write(LED_ON);
                 Red_LED_Write(LED_ON);
                 LED_Status = 1;
                 sprintf(message, "Potentiometer: %ld\r\n", digital_pot_value);
                 UART_PutString(message);
             } else{
-                On_Board_LED_Write(LED_OFF);
                 Red_LED_Write(LED_OFF);
                 LED_Status = 0;
                 sprintf(message, "Photoresistor: %ld\r\n", digital_photores_value);
