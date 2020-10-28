@@ -2,7 +2,10 @@
 #include "stdio.h"
 #include "InterruptRoutines.h"
 
-int32 value_digit;
+int32 digital_pot_value;
+int32 digital_photores_value;
+uint8_t LED_Status;
+
 int main( void ) 
 {
 	CyGlobalIntEnable; // Enable global interrupts.
@@ -31,18 +34,19 @@ int main( void )
             // Send out the data
             //UART_PutArray(DataBuffer, TRANSMIT_BUFFER_SIZE); //manda i singoli char dell'array di char. Però si aspetta una dimensione!
             //putstring invece mdnava finchè non trova /0. Qui invece devo definire il bytecount
-            sprintf(message, "Received: %ld\r\n", value_digit);
+            sprintf(message, "Received: %ld\r\n", digital_pot_value);
             UART_PutString(message);
             PacketReadyFlag = 0;
             
-            if(value_digit < THRESHOLD){
-                On_Board_LED_Write(1);
-                Red_LED_Write(1);
+            if(digital_photores_value < THRESHOLD){
+                On_Board_LED_Write(LED_ON);
+                Red_LED_Write(LED_ON);
+                LED_Status = 1;
             } else{
-                On_Board_LED_Write(0);
-                Red_LED_Write(0);
+                On_Board_LED_Write(LED_OFF);
+                Red_LED_Write(LED_OFF);
+                LED_Status = 0;
             }
         }
-    
     }
 }
