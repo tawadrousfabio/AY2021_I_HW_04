@@ -14,6 +14,7 @@ int main( void )
 	UART_Start();
     AMux_Start();
 	Timer_Start();
+    Red_LED_PWM_Start();
 	isr_ADC_StartEx(Custom_ISR_ADC);
     isr_RX_StartEx(Custom_ISR_RX);
 	// Initialize send flag
@@ -34,18 +35,22 @@ int main( void )
             // Send out the data
             //UART_PutArray(DataBuffer, TRANSMIT_BUFFER_SIZE); //manda i singoli char dell'array di char. Però si aspetta una dimensione!
             //putstring invece mdnava finchè non trova /0. Qui invece devo definire il bytecount
-            sprintf(message, "Received: %ld\r\n", digital_pot_value);
-            UART_PutString(message);
+            //sprintf(message, "Received: %ld\r\n", digital_pot_value);
+            //UART_PutString(message);
             PacketReadyFlag = 0;
             
             if(digital_photores_value < THRESHOLD){
                 On_Board_LED_Write(LED_ON);
                 Red_LED_Write(LED_ON);
                 LED_Status = 1;
+                sprintf(message, "Potentiometer: %ld\r\n", digital_pot_value);
+                UART_PutString(message);
             } else{
                 On_Board_LED_Write(LED_OFF);
                 Red_LED_Write(LED_OFF);
                 LED_Status = 0;
+                sprintf(message, "Photoresistor: %ld\r\n", digital_photores_value);
+                UART_PutString(message);
             }
         }
     }

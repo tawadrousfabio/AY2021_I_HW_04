@@ -38,7 +38,7 @@ CY_ISR(Custom_ISR_ADC){
             DataBuffer[2] = digital_pot_value & 0xFF;
             Red_LED_PWM_WriteCompare(digital_pot_value);
         
-        }
+        } else Red_LED_PWM_WriteCompare(0);
         
         
     }
