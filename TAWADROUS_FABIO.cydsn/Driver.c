@@ -12,6 +12,18 @@ extern int32 digital_pot_value;
 extern int32 digital_photores_value;
 extern uint8_t LED_Status;
 
+void Components_Initialization(void)
+{
+    ADC_DelSig_Start();
+	UART_Start();
+    AMux_Start();
+	Timer_Start();
+    Red_LED_PWM_Start();
+    AMux_FastSelect(PHOTO_RESISTOR_SAMPLE);
+	// Start the ADC conversion
+	ADC_DelSig_StartConvert();
+}
+
 void Start_Remote_Session(void)
 {
     On_Board_LED_Write(LED_ON);

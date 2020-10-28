@@ -22,6 +22,10 @@
     uint8_t DataBuffer[TRANSMIT_BUFFER_SIZE];
     volatile uint8 PacketReadyFlag;
 
+    /**
+    *   \brief 
+    */
+    void Components_Initialization(void);
     
     /**
     *   \brief 

@@ -8,7 +8,7 @@
 
 extern uint8_t LED_Status;
 
-uint8 ch_receveid; //deve essere un preciso carattere quello che arriva.
+uint8 session_char; //deve essere un preciso carattere quello che arriva.
 uint8 Remote_Start = 0;
 
 CY_ISR(Custom_ISR_ADC){
@@ -21,6 +21,7 @@ CY_ISR(Custom_ISR_ADC){
         
         //Se il LED è acceso allora con il potenziometro agisco sull'intensità di luce
         if(LED_Status == 1){
+            
             Potentiometer_Start_Sample();
         
         } else Red_LED_PWM_WriteCompare(0); 
@@ -29,9 +30,9 @@ CY_ISR(Custom_ISR_ADC){
 
 CY_ISR(Custom_ISR_RX){
 // Non-blocking call to get the latest data recieved
-    ch_receveid= UART_GetChar();
+    session_char = UART_GetChar();
     // Set flags based on UART command
-    switch(ch_receveid){
+    switch(session_char){
         case'B':
         case'b':
             Remote_Start= 1;
