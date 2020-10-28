@@ -55,8 +55,8 @@ void Potentiometer_Start_Sample(void)
     digital_pot_value = ADC_DelSig_Read32();
     if(digital_pot_value< 0)        digital_pot_value= 0;
     if(digital_pot_value> 65535)    digital_pot_value= 65535;
-    DataBuffer[1] = digital_pot_value >> 8;
-    DataBuffer[2] = digital_pot_value & 0xFF;
+    DataBuffer[3] = digital_pot_value >> 8;
+    DataBuffer[4] = digital_pot_value & 0xFF;
     Red_LED_PWM_WriteCompare(digital_pot_value);
 }
 

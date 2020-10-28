@@ -36,14 +36,15 @@ int main( void )
                 sprintf(message, "Potentiometer: %ld\r\n", digital_pot_value);
                 UART_PutString(message);
                 // Send out the data
-                //UART_PutArray(DataBuffer, TRANSMIT_BUFFER_SIZE); 
+                UART_PutArray(DataBuffer, TRANSMIT_BUFFER_SIZE); 
             } else{
+                
                 Red_LED_Write(LED_OFF);
                 LED_Status = 0;
                 sprintf(message, "Photoresistor: %ld\r\n", digital_photores_value);
                 UART_PutString(message);
                 // Send out the data
-                //UART_PutArray(DataBuffer, TRANSMIT_BUFFER_SIZE); //manda i singoli char dell'array di char. 
+                UART_PutArray(DataBuffer, TRANSMIT_BUFFER_SIZE); //manda i singoli char dell'array di char. 
             }
         }
     }
