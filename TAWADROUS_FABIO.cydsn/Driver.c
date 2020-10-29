@@ -2,7 +2,7 @@
 *   \brief Source code for the Driver.
 *   \author: Fabio Tawadrous
 *   
-*   In this file what were defined in the header file
+*   In this file what were defined in the driver header file
 *   is being implemented.
 */
 
@@ -10,7 +10,6 @@
 
 extern int32 digital_pot_value;
 extern int32 digital_photores_value;
-//extern uint8_t LED_Status;
 
 /**
 *   \brief Start ADC, UART, Timer, PWM in the main.c file.
@@ -45,6 +44,9 @@ void Stop_Remote_Session(void)
     Timer_Stop();
 }
 
+/**
+*   \brief function used to sample the photoresistor
+*/
 void Photo_Resistor_Start_Sample(void)
 {
     AMux_FastSelect(PHOTO_RESISTOR_SAMPLE);  
@@ -55,6 +57,9 @@ void Photo_Resistor_Start_Sample(void)
     DataBuffer[2] = digital_photores_value & 0xFF;
 }
 
+/**
+*   \brief function used to sample the potentiometer
+*/
 void Potentiometer_Start_Sample(void)
 {
     AMux_FastSelect(POTENTIOMETER_SAMPLE);
@@ -63,7 +68,7 @@ void Potentiometer_Start_Sample(void)
     if(digital_pot_value> 65535)    digital_pot_value= 65535;
     DataBuffer[3] = digital_pot_value >> 8;
     DataBuffer[4] = digital_pot_value & 0xFF;
-    Red_LED_PWM_WriteCompare(255*digital_pot_value/65535); //normalized for PWM 8 bit -> resource saved!
+    Red_LED_PWM_WriteCompare(255*digital_pot_value/65535); //normalized for 8 bit PWM -> resource saved!
 }
 
 /* [] END OF FILE */

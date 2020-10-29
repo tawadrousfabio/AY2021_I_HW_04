@@ -1,6 +1,9 @@
-// Include header
+/**
+*   \brief Source code for the implementation of what happens during the two interrupts
+*   \author: Fabio Tawadrous
+*/
+
 #include"InterruptRoutines.h"
-// Include required header files
 #include "project.h"
 #include "Driver.h"
 
@@ -22,7 +25,7 @@ CY_ISR(Custom_ISR_RX){
         case'B':
         case'b':
             Remote_Start= 1;
-            Start_Remote_Session();
+            Start_Remote_Session(); 
             break;
         case'S':
         case's':
@@ -47,6 +50,7 @@ CY_ISR(Custom_ISR_ADC){
             LED_Status = 1; 
             Potentiometer_Start_Sample(); //if LED is ON, sample also the potentiometer
         } else{
+            //  if the LED is not ON, we not sample the potentiometer, and the graph will show only the photoresistor values
             DataBuffer[3] = 0;
             DataBuffer[4] = 0;
             LED_Status = 0; 

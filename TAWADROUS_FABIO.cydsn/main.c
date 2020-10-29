@@ -1,3 +1,9 @@
+/**
+*   \file main.c
+*   \brief Project aim: to control the activation of a led through a photoresistor, and to control its intensity with a potentiometer
+*   \author: Fabio Tawadrous
+*/
+
 #include "project.h"
 #include "stdio.h"
 #include "InterruptRoutines.h"
