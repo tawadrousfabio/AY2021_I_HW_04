@@ -33,8 +33,6 @@ int main( void )
             {
                 Red_LED_Write(LED_OFF); 
                 Red_LED_PWM_WriteCompare(0);
-                DataBuffer[3] = 0;
-                DataBuffer[4] = 0;
                 UART_PutArray(DataBuffer, TRANSMIT_BUFFER_SIZE); // Send out the data
             }
         }

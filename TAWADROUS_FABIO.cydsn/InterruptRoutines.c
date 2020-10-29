@@ -47,6 +47,8 @@ CY_ISR(Custom_ISR_ADC){
             LED_Status = 1; 
             Potentiometer_Start_Sample(); //if LED is ON, sample also the potentiometer
         } else{
+            DataBuffer[3] = 0;
+            DataBuffer[4] = 0;
             LED_Status = 0; 
         }
     } 
