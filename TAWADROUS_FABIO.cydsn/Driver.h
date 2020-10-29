@@ -20,7 +20,10 @@
     
     uint8_t DataBuffer[TRANSMIT_BUFFER_SIZE]; 
     volatile uint8 PacketReadyFlag;
-
+    volatile uint8 LED_Status;
+    
+    int32 digital_photores_value;
+    int32 digital_pot_value;
     /**
     *   \brief starts the components. It will be used in the main.c file
     */
