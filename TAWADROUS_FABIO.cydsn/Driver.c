@@ -1,5 +1,5 @@
 /**
-*   \brief Source code for RGB Led Driver.
+*   \brief Source code for the Driver.
 *   \author: Fabio Tawadrous
 *   
 *   In this file what were defined in the header file
@@ -12,6 +12,10 @@ extern int32 digital_pot_value;
 extern int32 digital_photores_value;
 extern uint8_t LED_Status;
 
+
+/**
+*   \brief Start ADC, UART, Timer, PWM in the main.c file.
+*/
 void Components_Initialization(void)
 {
     ADC_DelSig_Start();
@@ -39,7 +43,6 @@ void Stop_Remote_Session(void)
 
 void Photo_Resistor_Start_Sample(void)
 {
-//1. campiono continuamente la luce 
     AMux_FastSelect(PHOTO_RESISTOR_SAMPLE);
     digital_photores_value = ADC_DelSig_Read32();
     if(digital_photores_value< 0)        digital_photores_value= 0;
@@ -50,7 +53,6 @@ void Photo_Resistor_Start_Sample(void)
 
 void Potentiometer_Start_Sample(void)
 {
-//visto che il LED è ON => posso controllare l'intensità
     AMux_FastSelect(POTENTIOMETER_SAMPLE);
     digital_pot_value = ADC_DelSig_Read32();
     if(digital_pot_value< 0)        digital_pot_value= 0;

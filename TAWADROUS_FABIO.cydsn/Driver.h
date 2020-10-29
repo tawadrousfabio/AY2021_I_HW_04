@@ -1,58 +1,52 @@
 /**
-*   \brief Header code for RG(B) Led Driver.
+*   \brief Header code for the Driver.
 *   \author: Fabio Tawadrous
-
-*   I decided to define a struct type, in order to be 
-*   able to use then an array of 7 structs (one for each pattern),
-*   which allow to avoid the switch-case during the implementation.
 *   
 */
 #ifndef _RG_LED_DRIVER_H_
     #define _RG_LED_DRIVER_H_
     #include "project.h"
     
-    #define BYTE_TO_SEND 4
-    #define TRANSMIT_BUFFER_SIZE 1 + BYTE_TO_SEND +1
-    #define THRESHOLD 10000 //poi rimetti a 5k
+    #define BYTE_TO_SEND 4 //  2 for potentiometer and 2 for photoresistor
+    #define TRANSMIT_BUFFER_SIZE 1 + BYTE_TO_SEND +1 //  Start byte - sample bytes - tail byte
+    #define THRESHOLD 15000 //  value under which the LED turns ON.
+    //poi rimetti a 5k
+    
+    //These defines are used to make clearer the code and the functions input.
     #define PHOTO_RESISTOR_SAMPLE 0
     #define POTENTIOMETER_SAMPLE 1
     #define LED_ON 1
     #define LED_OFF 0
     
-    uint8_t DataBuffer[TRANSMIT_BUFFER_SIZE];
+    uint8_t DataBuffer[TRANSMIT_BUFFER_SIZE]; 
     volatile uint8 PacketReadyFlag;
 
     /**
-    *   \brief 
+    *   \brief starts the components. It will be used in the main.c file
     */
     void Components_Initialization(void);
     
     /**
-    *   \brief 
+    *   \brief this function is called when 'b' or 'B' is pressed. It turns ON the on board led, and starts the timer
     */
     void Start_Remote_Session(void);
     
     /**
-    *   \brief 
+    *   \brief this function is called when 's' or 'S' is pressed. It turns OFF the on board led, and stops the timer
     */
     void Stop_Remote_Session(void);
     
     /**
-    *   \brief 
+    *   \brief this function is used to sample the photo resistor
     */
     void Photo_Resistor_Start_Sample(void);
     
     /**
-    *   \brief 
+    *   \brief this function is used to sample the potentiometer
     */
     void Potentiometer_Start_Sample(void);
     
-    /**
-    *   \brief 
-    */
-    void RedLed_WriteCmp();
     
-
 #endif
 
 /* [] END OF FILE */

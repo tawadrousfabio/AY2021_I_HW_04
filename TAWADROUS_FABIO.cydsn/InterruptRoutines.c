@@ -1,7 +1,7 @@
 // Include header
 #include"InterruptRoutines.h"
 // Include required header files
-#include"project.h"
+#include "project.h"
 #include "Driver.h"
 
 // Variables declaration
@@ -23,7 +23,6 @@ CY_ISR(Custom_ISR_ADC){
         if(LED_Status == 1){
             
             Potentiometer_Start_Sample();
-        
         } else Red_LED_PWM_WriteCompare(0); 
     } 
 }
