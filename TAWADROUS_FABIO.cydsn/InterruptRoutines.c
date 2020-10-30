@@ -11,6 +11,9 @@
 
 uint8 session_char; 
 uint8 Remote_Start = 0;
+uint8_t external_LED_value;
+int32 digital_photores_value;
+int32 digital_potentiometer_value;
 
 /**
 *   In this ISR we check the last char received. If b or B the session will be started.
@@ -51,19 +54,18 @@ CY_ISR(Custom_ISR_ADC){
     Timer_ReadStatusRegister(); // Read Timer status register to bring interrupt line low
     if(Remote_Start == 1)
     {  
-        // Recall 2 functions which sample respectively the 2 sensors.
-        Photo_Resistor_Start_Sample(); 
-        Potentiometer_Start_Sample(); 
+        // Recall to a generic function, which can sample both the sensors, according to the input
+        digital_photores_value = Generic_Sensor_Start_Sample(PHOTO_RESISTOR_SAMPLE, 1);
+        digital_potentiometer_value = Generic_Sensor_Start_Sample(POTENTIOMETER_SAMPLE, 3);
         
         PacketReadyFlag=1;
-        
-        //check if the photoresistor value < threshold => flag = 1
+
+        //Now we can check if the photoresistor sampled value is under the fixed threshold
         if(digital_photores_value < THRESHOLD)
         {
-            Red_LED_PWM_WriteCompare(255*digital_pot_value/65535); //normalized for 8 bit PWM -> resource saved!
+            Red_LED_PWM_WriteCompare(255*digital_potentiometer_value/65535); //  Normalized for 8 bit PWM -> resource saved (avoided 16bit PWM)
         } else{
-            //  if the LED is not ON, we not sample the potentiometer, and the graph will show only the photoresistor values
-            Red_LED_PWM_WriteCompare(0);
+            Red_LED_PWM_WriteCompare(0); //  If we are over the threshold, the LED must be turned OFF.
         }
     } 
 }

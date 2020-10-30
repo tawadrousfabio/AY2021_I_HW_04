@@ -8,11 +8,9 @@
 
 #include "Driver.h"
 
-extern int32 digital_pot_value;
-extern int32 digital_photores_value;
 
 /**
-*   \brief Start ADC, UART, Timer, PWM in the main.c file.
+*   \brief Start ADC, UART, AMUX, Timer, PWM in the main.c file.
 */
 void Components_Initialization(void)
 {
@@ -30,12 +28,12 @@ void Components_Initialization(void)
 */
 void Start_Remote_Session(void)
 {
-    On_Board_LED_Write(LED_ON);  //  Turn on the LED
+    On_Board_LED_Write(LED_ON);  //  Turn on the on borard LED
     Timer_Start();
 }
 
 /**
-*   \brief this function is called when 's' or 'S' is pressed. 
+*   \brief this function is called when 's' or 'S' is pressed, and stops the session. 
 */
 void Stop_Remote_Session(void)
 {
@@ -44,30 +42,33 @@ void Stop_Remote_Session(void)
     Timer_Stop();
 }
 
-/**
-*   \brief function used to sample the photoresistor
-*/
-void Photo_Resistor_Start_Sample(void)
-{
-    AMux_FastSelect(PHOTO_RESISTOR_SAMPLE);  
-    digital_photores_value = ADC_DelSig_Read32();
-    if(digital_photores_value< 0)        digital_photores_value= 0;
-    if(digital_photores_value> 65535)    digital_photores_value= 65535;
-    DataBuffer[1] = digital_photores_value >> 8;
-    DataBuffer[2] = digital_photores_value & 0xFF;
-}
+
 
 /**
-*   \brief function used to sample the potentiometer
-*/
-void Potentiometer_Start_Sample(void)
+*   \brief: dynamic function which samples a specific sensor according to the given input
+*
+*   Before of this I had 2 functions, one for the photoresistor and one for the the potentiometer.
+*   I decided to create a dynamic version of the sample functions because if in future we add more sensors to 
+*   be sampled, all connected to the same AMux, it would be easy to sample whatever of them, by just recalling
+*   this function giving as input the specific channel to be sampled and the starting array index where I would like to 
+*   store the bytes that will be sent (e.g. for the photoresistor I'm using the first 2 bytes after the A0 => index = 1 (it will store in 
+*   the indexes 1 and 2).
+*   The function returns a digital_value, which is the sampled value, which could be stored in a variable (when the function is called), and
+*   used for specific purposes.
+**/
+
+int32 Generic_Sensor_Start_Sample(uint8_t AMUX_Channel, uint8_t buffer_starting_index)
 {
-    AMux_FastSelect(POTENTIOMETER_SAMPLE);
-    digital_pot_value = ADC_DelSig_Read32();
-    if(digital_pot_value< 0)        digital_pot_value= 0;
-    if(digital_pot_value> 65535)    digital_pot_value= 65535;
-    DataBuffer[3] = digital_pot_value >> 8;
-    DataBuffer[4] = digital_pot_value & 0xFF;
+    int32 digital_value; //local variable. It's needed only within the function itself, having the function a return value.
+    
+    AMux_FastSelect(AMUX_Channel); 
+    digital_value = ADC_DelSig_Read32();  //even if this is a blocking function, for this specific application we can use it in the interrupt without problems
+    if(digital_value< 0)        digital_value= 0;   
+    if(digital_value> 65535)    digital_value= 65535;   
+    DataBuffer[buffer_starting_index] = digital_value >> 8;
+    DataBuffer[buffer_starting_index+1] = digital_value & 0xFF;
+   
+    return digital_value;
 }
 
 /* [] END OF FILE */
