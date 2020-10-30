@@ -7,13 +7,13 @@
 #include "project.h"
 #include "Driver.h"
 
+
 // Variables declaration
 
-uint8 session_char; 
-uint8 Remote_Start = 0;
-uint8_t external_LED_value;
-int32 digital_photores_value;
-int32 digital_potentiometer_value;
+uint8 session_char;                 //  Char received  
+uint8 Remote_Start = 0;             //  Flag which allows the sampling to start in the other interrupt.
+int32 digital_photores_value;       //  Value used to store the sampled photoresistor value
+int32 digital_potentiometer_value;  //  Value used to store the sampled potentiometer value
 
 /**
 *   In this ISR we check the last char received. If b or B the session will be started.
@@ -29,7 +29,7 @@ CY_ISR(Custom_ISR_RX){
     {
         case'B':
         case'b':
-            Remote_Start= 1;  //flag which allows the sampling to start in the other interrupt.
+            Remote_Start= 1;  
             Start_Remote_Session(); //function which starts the timer and turn ON the on board led.
             break;
         case'S':
@@ -54,11 +54,11 @@ CY_ISR(Custom_ISR_ADC){
     Timer_ReadStatusRegister(); // Read Timer status register to bring interrupt line low
     if(Remote_Start == 1)
     {  
-        // Recall to a generic function, which can sample both the sensors, according to the input
-        digital_photores_value = Generic_Sensor_Start_Sample(PHOTO_RESISTOR_SAMPLE, 1);
-        digital_potentiometer_value = Generic_Sensor_Start_Sample(POTENTIOMETER_SAMPLE, 3);
+        // Recall to a generic function, which can sample both the sensors, according to the input, and store the returned value
+        digital_photores_value = Generic_Sensor_Start_Sample(PHOTO_RESISTOR_SAMPLE, PHOTO_RESISTOR_BUFFER_INDEX);
+        digital_potentiometer_value = Generic_Sensor_Start_Sample(POTENTIOMETER_SAMPLE, POTENTIOMETER_BUFFER_INDEX);
         
-        PacketReadyFlag=1;
+        PacketReadyFlag=1; //   Data is ready to be sent
 
         //Now we can check if the photoresistor sampled value is under the fixed threshold
         if(digital_photores_value < THRESHOLD)

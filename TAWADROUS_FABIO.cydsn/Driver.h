@@ -12,11 +12,13 @@
     #define THRESHOLD 15000                                 //  Value under which the LED must turn ON.
 
     
-    //  These defines are used in the sample function, to define which is the AMUX channel
+    //  These defines are used in the sample function, to define which is the AMUX channel, and which is the starting buffer index
     #define PHOTO_RESISTOR_SAMPLE 0  
     #define POTENTIOMETER_SAMPLE 1
+    #define PHOTO_RESISTOR_BUFFER_INDEX 1
+    #define POTENTIOMETER_BUFFER_INDEX 3
     
-    //  Defines used to defeine if the led is on or off in a clearer way.
+    //  Defines used to define if the led is on or off in a clearer way.
     #define LED_ON 1
     #define LED_OFF 0
     
@@ -43,7 +45,7 @@
    
     
     /**
-    *   \brief used to sample any sensor according to the input channel, and store the value in the dataBuffer starting from the input index
+    *   \brief used to sample any sensor according to the input channel, and store the value in dataBuffer starting from the input Buffer index
     */
     int32 Generic_Sensor_Start_Sample(uint8_t AMUX_Channel, uint8_t buffer_starting_index);
     

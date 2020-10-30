@@ -28,7 +28,7 @@ void Components_Initialization(void)
 */
 void Start_Remote_Session(void)
 {
-    On_Board_LED_Write(LED_ON);  //  Turn on the on borard LED
+    On_Board_LED_Write(LED_ON);  //  Turn on the on board LED
     Timer_Start();
 }
 
