@@ -13,7 +13,9 @@ uint8 session_char;
 uint8 Remote_Start = 0;
 
 /**
-*   \brief in this ISR we check the last char received. If b or B -> start the session, if s or S -> end it.
+*   In this ISR we check the last char received. If b or B the session will be started.
+*   if s or S is pressed, the session will be ended.
+*   If another key is pressed, nothing happens.
 */
 
 CY_ISR(Custom_ISR_RX){
@@ -24,8 +26,8 @@ CY_ISR(Custom_ISR_RX){
     {
         case'B':
         case'b':
-            Remote_Start= 1;
-            Start_Remote_Session(); 
+            Remote_Start= 1;  //flag which allows the sampling to start in the other interrupt.
+            Start_Remote_Session(); //function which starts the timer and turn ON the on board led.
             break;
         case'S':
         case's':
@@ -37,23 +39,31 @@ CY_ISR(Custom_ISR_RX){
     }
 }
 
+/**
+*
+* In this ISR we check if the flag is 1 (which means that b or B was pressed). 
+* Only if the flag is 1 we can start to sample both the sensors. 
+* I decided to sample both the sensors (and plot both, always), but the LED intensity
+* is modulated ONLY AND ONLY IF the ambient light intensity is below the threshold.
+**/
 
 CY_ISR(Custom_ISR_ADC){
     Timer_ReadStatusRegister(); // Read Timer status register to bring interrupt line low
     if(Remote_Start == 1)
     {  
-        Photo_Resistor_Start_Sample(); //if the session started, start also to sample the photoresistor
+        // Recall 2 functions which sample respectively the 2 sensors.
+        Photo_Resistor_Start_Sample(); 
+        Potentiometer_Start_Sample(); 
+        
         PacketReadyFlag=1;
+        
         //check if the photoresistor value < threshold => flag = 1
         if(digital_photores_value < THRESHOLD)
         {
-            LED_Status = 1; 
-            Potentiometer_Start_Sample(); //if LED is ON, sample also the potentiometer
+            Red_LED_PWM_WriteCompare(255*digital_pot_value/65535); //normalized for 8 bit PWM -> resource saved!
         } else{
             //  if the LED is not ON, we not sample the potentiometer, and the graph will show only the photoresistor values
-            DataBuffer[3] = 0;
-            DataBuffer[4] = 0;
-            LED_Status = 0; 
+            Red_LED_PWM_WriteCompare(0);
         }
     } 
 }

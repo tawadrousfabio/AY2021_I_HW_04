@@ -68,7 +68,6 @@ void Potentiometer_Start_Sample(void)
     if(digital_pot_value> 65535)    digital_pot_value= 65535;
     DataBuffer[3] = digital_pot_value >> 8;
     DataBuffer[4] = digital_pot_value & 0xFF;
-    Red_LED_PWM_WriteCompare(255*digital_pot_value/65535); //normalized for 8 bit PWM -> resource saved!
 }
 
 /* [] END OF FILE */

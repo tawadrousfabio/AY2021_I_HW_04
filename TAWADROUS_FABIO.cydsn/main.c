@@ -30,17 +30,7 @@ int main( void )
         if (PacketReadyFlag == 1)
         {
             PacketReadyFlag = 0;
-            
-            if(LED_Status == 1)
-            {
-                Red_LED_Write(LED_ON);
-                UART_PutArray(DataBuffer, TRANSMIT_BUFFER_SIZE); // Send out the data
-            } else
-            {
-                Red_LED_Write(LED_OFF); 
-                Red_LED_PWM_WriteCompare(0);
-                UART_PutArray(DataBuffer, TRANSMIT_BUFFER_SIZE); // Send out the data
-            }
+            UART_PutArray(DataBuffer, TRANSMIT_BUFFER_SIZE); // Send out the data
         }
     }
 }
